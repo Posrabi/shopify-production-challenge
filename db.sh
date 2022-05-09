@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 start=`date +%s`
 
 set -eu -o pipefail
