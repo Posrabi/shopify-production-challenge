@@ -14,10 +14,10 @@ Build instructions:
 
 ```
 
-make // build the server
+make # build the server
 
-bash db.sh // build the database and run unit tests
+bash db.sh # build the database
 
-./build/inv server
+./build/inv server # run server
 
 ```

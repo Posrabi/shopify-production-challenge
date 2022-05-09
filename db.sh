@@ -18,8 +18,6 @@ done
 
 unset pids
 
-cd $cur_dir/src/inv/pkg/postgres && go test -race -v
-
 end=`date +%s`
 
 runtime=$((end-start))
