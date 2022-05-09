@@ -12,12 +12,14 @@ As of the http handling, Go's net/http library create a copy of api/service to h
 
 Build instructions:
 
+After cloning run these commands.
+
 ```
 
-make # build the server
+make
 
-bash db.sh # build the database
+bash db.sh
 
-./build/inv server # run server
+./build/inv server
 
 ```
