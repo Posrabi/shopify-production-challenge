@@ -1,0 +1,12 @@
+services:
+  db:
+    build:
+      context: ../../db/
+      dockerfile: ../infra/postgres/Dockerfile
+    restart: always
+    ports:
+      - '5678:5432'
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: testpass
+      POSTGRES_DB: testDB
