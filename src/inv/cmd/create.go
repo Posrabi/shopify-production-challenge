@@ -10,14 +10,14 @@ import (
 )
 
 func createHandler(w http.ResponseWriter, r *http.Request) error {
-	item := entity.Item{}
-	if err := json.NewDecoder(r.Body).Decode(&item); err != nil && err != io.EOF {
+	request := entity.CreateItemRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&request); err != nil && err != io.EOF {
 		w.WriteHeader(http.StatusBadRequest)
 		return err
 	}
 
 	ctx := context.Background()
-	if err := invService.CreateItem(ctx, &item); err != nil {
+	if err := invService.CreateItem(ctx, &request.AssignCityToItem().Item); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return err
 	}

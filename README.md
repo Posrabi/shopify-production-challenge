@@ -1,6 +1,6 @@
 # Notice:
 
-This is built on top of a copy of the shopify backend challenge (I'm not going through the pain of setting up postgres on Replit again :blush:)
+This is built on top of a copy of the my [shopify backend project](https://github.com/Posrabi/shopify-backend-project) (I'm not going through the pain of setting up postgres on Replit again :blush:)
 
 # Shopify ~~Backend Developer~~ Production Intern Challenge
 
@@ -86,10 +86,24 @@ curl localhost:8081/ship --data '{"item_instance":{"item_id":"1","item_quantity"
 
 ---
 
-An important side note about replit, if you somehow accidentally press stop, to run the server again, run:
+# Some debugging comments
+
+- An important side note about replit, if you somehow accidentally press stop, to run the server again, run:
 
 ```
 pg_ctl stop
 ```
 
 And then reload the page or there would be some pretty nasty port conflicts coming from postgres not correctly stopped.
+
+- If you are testing this out with the docker compose image, make sure the postgres in docker is the only one running.
+
+Run this to check running services:
+
+```
+systemctl list-units --type=service
+```
+
+```
+systemctl stop {service}
+```

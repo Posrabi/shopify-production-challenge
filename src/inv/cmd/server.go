@@ -56,7 +56,12 @@ func runServerCmd(cmd *cobra.Command, args []string) {
 		logrus.Panicf("unable to connect to postgres database: %w", err)
 	}
 
-	invService = api.NewService(api.NewMasterRepository(db))
+	openWeatherToken, ok := os.LookupEnv("OPEN_WEATHER_TOKEN")
+	if !ok {
+		logrus.Panic("unable to find OPEN_WEATHER_TOKEN from .env")
+	}
+
+	invService = api.NewService(api.NewMasterRepository(db, openWeatherToken))
 
 	r := mux.NewRouter()
 	r.Use(middleware.LoggingMiddleware)

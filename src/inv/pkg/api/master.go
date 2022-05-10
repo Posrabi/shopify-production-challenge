@@ -13,9 +13,9 @@ type masterRepo struct {
 	item repository.Item
 }
 
-func NewMasterRepository(db *sql.DB) repository.Master {
+func NewMasterRepository(db *sql.DB, openWeatherToken string) repository.Master {
 	return &masterRepo{
-		item: postgres.NewItemRepository(db),
+		item: postgres.NewItemRepository(db, openWeatherToken),
 	}
 }
 

@@ -3,29 +3,35 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"fmt"
+
+	resty "github.com/go-resty/resty/v2"
 
 	"github.com/Posrabi/shopify-backend-project/src/common/exception"
 	"github.com/Posrabi/shopify-backend-project/src/inv/pkg/entity"
 	"github.com/Posrabi/shopify-backend-project/src/inv/pkg/repository"
 )
 
-const ITEM_COLUMNS = "item_id, item_name, brand, item_quantity"
+const ITEM_COLUMNS = "item_id, item_name, brand, item_quantity, storage_city"
+const openWeatherURL = "http://api.openweathermap.org/data/2.5/weather"
 
 type itemRepo struct {
-	db *sql.DB
+	db               *sql.DB
+	openWeatherToken string
 }
 
-func NewItemRepository(db *sql.DB) repository.Item {
+func NewItemRepository(db *sql.DB, openWeatherToken string) repository.Item {
 	return &itemRepo{
-		db: db,
+		db:               db,
+		openWeatherToken: openWeatherToken,
 	}
 }
 
 func (i *itemRepo) CreateItem(ctx context.Context, item *entity.Item) error {
-	q := `INSERT INTO items (%s) VALUES ($1, $2, $3, $4)`
+	q := `INSERT INTO items (%s) VALUES ($1, $2, $3, $4, $5)`
 
-	args := []any{item.ID, item.Name, item.Brand, item.Quantity}
+	args := []any{item.ID, item.Name, item.Brand, item.Quantity, item.StorageCity}
 	if _, err := i.db.ExecContext(ctx, fmt.Sprintf(q, ITEM_COLUMNS), args...); err != nil {
 		return exception.NewPQError(err, q, args)
 	}
@@ -63,7 +69,20 @@ func (i *itemRepo) ListItems(ctx context.Context) ([]*entity.Item, error) {
 		return nil, exception.NewPQError(err, q, nil)
 	}
 
-	return i.scanItems(res)
+	items, err := i.scanItems(res)
+	if err != nil {
+		return nil, err
+	}
+
+	client := resty.New().SetHeader("Accept", "application/json")
+	for _, item := range items {
+		item.Weather, err = i.getWeatherReport(ctx, client, string(item.StorageCity))
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return items, nil
 }
 
 func (i *itemRepo) ShipItem(ctx context.Context, itemInstance *entity.ItemInstance) error {
@@ -98,6 +117,7 @@ func (i *itemRepo) scanItems(rows *sql.Rows) ([]*entity.Item, error) {
 			&item.Name,
 			&item.Brand,
 			&item.Quantity,
+			&item.StorageCity,
 		); err != nil {
 			return nil, exception.NewError(err)
 		}
@@ -106,4 +126,20 @@ func (i *itemRepo) scanItems(rows *sql.Rows) ([]*entity.Item, error) {
 	}
 
 	return items, rows.Err()
+}
+
+// getWeatherReport returns a weather report from the city name, which makes it a little less accurate than using coordinates but is
+// perfectly fine in this situation.
+func (i *itemRepo) getWeatherReport(ctx context.Context, client *resty.Client, city string) (string, error) {
+	resp, err := client.R().SetContext(ctx).SetQueryParam("appid", i.openWeatherToken).SetQueryParam("q", city).Get(openWeatherURL)
+	if err != nil {
+		return "", err
+	}
+
+	var report entity.WeatherReport
+	if err := json.Unmarshal(resp.Body(), &report); err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("City: %s, Weather: %s, Description: %s", report.Name, report.Weather[0].Main, report.Weather[0].Description), nil
 }
