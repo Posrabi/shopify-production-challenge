@@ -52,7 +52,7 @@ This can be achieve forking the repl to your account and run curl in the shell. 
 
 After clicking run and wait for the "Listening on localhost:8081" message.
 
-Try these commands in the shell
+Try these cURL commands in the shell
 
 - Create:
 
@@ -64,6 +64,12 @@ curl localhost:8081/create --data '{"item_id":"1","brand":"something","item_name
 
 ```
 curl localhost:8081/list
+```
+
+- List in CSV:
+
+```
+curl localhost:8081/list -H "Content-Type: text/csv"
 ```
 
 - Edit:
