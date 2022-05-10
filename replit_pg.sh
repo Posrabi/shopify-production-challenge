@@ -10,6 +10,7 @@ sed -i "s/replace_unix_dir/${socker_dir}/" data/postgresql.conf
 
 pg_ctl -l /home/runner/${REPL_SLUG}/postgresql.log start
 
-createdb -h localhost -p 5432 -U testuser
-psql -h localhost -p 5432 -c "create database testDB;" -U testuser
-psql -h localhost -p 5432 -d testDB -f db/migrations/*up.sql -U testuser
+createdb -h localhost -p 5432 -e "testDB"
+psql -h localhost -p 5432 -d "testDB" -c "create user test with password 'testpass';"
+psql -h localhost -p 5432 -d "testDB" -f db/migrations/*up.sql -U test
+
