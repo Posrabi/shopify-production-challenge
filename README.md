@@ -1,4 +1,8 @@
-# Shopify Backend Developer Intern Challenge
+# Notice:
+
+This is built on top of a copy of the shopify backend challenge.
+
+# Shopify ~~Backend Developer~~ Production Intern Challenge
 
 This is a REST API built in Go.
 
