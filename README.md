@@ -50,11 +50,11 @@ Everything on Replit is ready to go. All you need to do is press "Run".
 
 This is only a server so you will have to use curl to make requests :)
 
-This can be achieve forking the repl to your account and run curl in the shell. Some example commands our below.
+This can be achieved forking the repl to your account and run curl in the shell. Some example commands our below.
 
-After clicking run and wait for the "Listening on localhost:8081" message.
+After clicking "Run", wait a couple seconds for the "Listening on localhost:8081" message.
 
-Try these cURL commands in the shell
+Try these cURL commands in the shell:
 
 - Create:
 
