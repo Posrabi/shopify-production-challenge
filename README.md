@@ -2,7 +2,7 @@
 
 This is a REST API built in Go.
 
-An inventory tracking app with CRUD operations -> ideal for SQL databases due to their ACID nature.
+An inventory tracking app mainly with CRUD operations -> ideal for SQL databases due to their ACID nature.
 
 For the current requirements, a SQLite or any lightweight SQL database will do it. But if we want to scale later on, we should use something "heavier" like MySQL, Postgres (which is what I've chosen here) or MSSQL.
 
@@ -21,5 +21,19 @@ make
 bash db.sh
 
 ./build/inv server
+
+```
+
+# On Replit
+
+This is only a server so you will have to use curl
+
+After click run
+
+Try these commands in the shell
+
+```
+
+
 
 ```

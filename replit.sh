@@ -1,4 +1,4 @@
 go mod download
 make
-./db.sh
+bash ./db.sh
 ./build/inv server

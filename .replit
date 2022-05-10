@@ -1,0 +1,10 @@
+run = ["bash", "replit.sh"]
+
+[languages.go]
+pattern = "**/*.go"
+
+[languages.go.languageServer]
+start = "gopls"
+
+[nix]
+channel = "unstable"
