@@ -8,3 +8,6 @@ start = "gopls"
 
 [nix]
 channel = "unstable"
+
+[env]
+PGDATA = "/home/runner/${REPL_SLUG}/data"

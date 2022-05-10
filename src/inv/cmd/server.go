@@ -63,7 +63,7 @@ func runServerCmd(cmd *cobra.Command, args []string) {
 
 	r.Path("/create").Methods("POST").HandlerFunc(middleware.ErrorWrapper("/create", createHandler))
 	r.Path("/edit").Methods("POST").HandlerFunc(middleware.ErrorWrapper("/edit", editHandler))
-	r.Path("/delete").Methods("POST").HandlerFunc(middleware.ErrorWrapper("/delete", deleteHandler))
+	r.Path("/delete").Methods("DELETE").HandlerFunc(middleware.ErrorWrapper("/delete", deleteHandler))
 	r.Path("/list").Methods("GET").HandlerFunc(middleware.ErrorWrapper("/list", listHandler))
 	r.Path("/ship").Methods("POST").HandlerFunc(middleware.ErrorWrapper("/ship", shipHandler))
 

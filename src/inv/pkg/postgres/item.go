@@ -26,7 +26,7 @@ func (i *itemRepo) CreateItem(ctx context.Context, item *entity.Item) error {
 	q := `INSERT INTO items (%s) VALUES ($1, $2, $3, $4)`
 
 	args := []any{item.ID, item.Name, item.Brand, item.Quantity}
-	if _, err := i.db.ExecContext(ctx, fmt.Sprintf(q, ITEM_COLUMNS), args); err != nil {
+	if _, err := i.db.ExecContext(ctx, fmt.Sprintf(q, ITEM_COLUMNS), args...); err != nil {
 		return exception.NewPQError(err, q, args)
 	}
 
@@ -49,7 +49,7 @@ func (i *itemRepo) EditItem(ctx context.Context, item *entity.Item) error {
 	WHERE item_id = $4`
 
 	args := []any{item.Name, item.Brand, item.Quantity, item.ID}
-	if _, err := i.db.ExecContext(ctx, q, args); err != nil {
+	if _, err := i.db.ExecContext(ctx, q, args...); err != nil {
 		return exception.NewPQError(err, q, args)
 	}
 
@@ -82,7 +82,7 @@ func (i *itemRepo) ShipItem(ctx context.Context, itemInstance *entity.ItemInstan
 
 	update := `UPDATE items SET item_quantity = item_quantity - $2 WHERE item_id = $1`
 	updateArgs := []any{itemInstance.ID, itemInstance.Quantity}
-	if _, err := i.db.ExecContext(ctx, update, updateArgs); err != nil {
+	if _, err := i.db.ExecContext(ctx, update, updateArgs...); err != nil {
 		return exception.NewPQError(err, update, updateArgs)
 	}
 
