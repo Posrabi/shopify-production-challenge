@@ -28,7 +28,7 @@ bash db.sh
 
 This is only a server so you will have to use curl to make requests :)
 
-Remember to click edit in workspace to have access to curl.
+Remember to click edit in workspace / or fork to your account to have access to curl.
 
 After clicking run and wait for the "Listening on localhost:8081" message.
 
