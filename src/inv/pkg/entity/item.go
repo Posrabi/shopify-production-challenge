@@ -1,5 +1,10 @@
 package entity
 
+import (
+	"reflect"
+	"strconv"
+)
+
 // Generic item entity
 type Item struct {
 	ID          string `json:"item_id" db:"item_id"` // UUID
@@ -8,6 +13,35 @@ type Item struct {
 	Quantity    int    `json:"item_quantity" db:"item_quantity"`
 	StorageCity City   `json:"storage_city" db:"storage_city"`
 	Weather     string `json:"weather"`
+}
+
+func (i *Item) ToCSVRecord() []string {
+	v := reflect.ValueOf(*i)
+
+	res := []string{}
+
+	for i := 0; i < v.NumField(); i++ {
+		field := v.Field(i)
+		if field.CanInt() {
+			res = append(res, strconv.FormatInt(v.Field(i).Int(), 10))
+		} else {
+			res = append(res, v.Field(i).String())
+		}
+	}
+
+	return res
+}
+
+func (i *Item) ToCSVHeader() []string {
+	v := reflect.ValueOf(*i)
+
+	res := []string{}
+
+	for i := 0; i < v.NumField(); i++ {
+		res = append(res, v.Type().Field(i).Tag.Get("json"))
+	}
+
+	return res
 }
 
 // An instance of Item for shipment, is not present on the DB.
@@ -31,6 +65,7 @@ type CreateItemRequest struct {
 	City int  `json:"city"`
 }
 
+// Not a very good idea IRL but in this case, it works!
 func (r *CreateItemRequest) AssignCityToItem() *CreateItemRequest {
 	switch r.City {
 	case 2:
