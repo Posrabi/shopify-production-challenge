@@ -26,14 +26,42 @@ bash db.sh
 
 # On Replit
 
-This is only a server so you will have to use curl
+This is only a server so you will have to use curl to make requests :)
 
-After click run
+After clicking run and wait for the "Listening on localhost:8081" message.
 
 Try these commands in the shell
 
 ```
 
+Create:
 
+curl localhost:8081/create --data '{"item_id":"1","brand":"something","item_name":"test item","item_quantity":10}'
+
+List:
+
+curl localhost:8081/list
+
+Edit:
+
+curl localhost:8081/edit --data '{"item_id":"1","brand":"nothing","item_name":"test item 1","item_quantity":50}'
+
+Delete: This uses query params not JSON
+
+curl localhost:8081/delete?id=1 --request DELETE
+
+Ship:
+
+curl localhost:8081/ship --data '{"item_instance":{"item_id":"1","item_quantity":5}}'
 
 ```
+
+Side note about replit, if you somehow accidentally press stop, to run the server again, run
+
+```
+
+pg_ctl stop
+
+```
+
+And then reload the page or there would be some pretty nasty port conflicts.
