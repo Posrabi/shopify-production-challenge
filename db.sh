@@ -8,7 +8,7 @@ cur_dir=$PWD
 
 echo "Building DB"
 
-cd infra/postgres && docker-compose down --volumes && docker-compose build --pull && docker-compose up -d &
+cd infra/postgres && docker-compose down --rmi all --volumes --remove-orphans && docker-compose up -d &
 pids+=( $! )
 
 for pid in ${pids[*]}; do
