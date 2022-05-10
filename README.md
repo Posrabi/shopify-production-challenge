@@ -22,6 +22,8 @@ Any errors occurred during execution will be automatically log into stderr. I al
 
 As of the http handling, Go's net/http library create a copy of api/service to handle every new incoming request.
 
+---
+
 # Build instructions from source:
 
 After cloning run these commands.
@@ -38,9 +40,11 @@ bash db.sh
 
 ```
 
+---
+
 # On Replit:
 
-Link: https://replit.com/@Posrabi/shopify-backend-project-2#Makefile
+[Link to Replit](https://replit.com/@posrabi/shopify-backend-project-2#makefile)
 
 Everything on Replit is ready to go. All you need to do is press "Run".
 
@@ -52,36 +56,42 @@ After clicking run and wait for the "Listening on localhost:8081" message.
 
 Try these commands in the shell
 
+- Create:
+
 ```
-
-Create:
-
 curl localhost:8081/create --data '{"item_id":"1","brand":"something","item_name":"test item","item_quantity":10}'
+```
 
-List:
+- List:
 
+```
 curl localhost:8081/list
+```
 
-Edit:
+- Edit:
 
+```
 curl localhost:8081/edit --data '{"item_id":"1","brand":"nothing","item_name":"test item 1","item_quantity":50}'
+```
 
-Delete: This uses query params not JSON
+- Delete: This uses query params not JSON
 
+```
 curl localhost:8081/delete?id=1 --request DELETE
+```
 
-Ship:
+- Ship:
 
+```
 curl localhost:8081/ship --data '{"item_instance":{"item_id":"1","item_quantity":5}}'
-
 ```
 
-A Side note about replit, if you somehow accidentally press stop, to run the server again, run
+---
+
+An important side note about replit, if you somehow accidentally press stop, to run the server again, run:
 
 ```
-
 pg_ctl stop
-
 ```
 
 And then reload the page or there would be some pretty nasty port conflicts coming from postgres not correctly stopped.
