@@ -59,7 +59,7 @@ Try these cURL commands in the shell
 - Create:
 
 ```
-curl localhost:8081/create --data '{"item_id":"1","brand":"something","item_name":"test item","item_quantity":10}'
+curl localhost:8081/create --data '{"item":{"item_id":"1","brand":"something","item_name":"test item","item_quantity":10},"city":2}'
 ```
 
 - List:
